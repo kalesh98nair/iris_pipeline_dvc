@@ -1,0 +1,18 @@
+stages:
+  clean_data:
+    cmd: python src/load_clean.py data/iris.csv data/cleaned.csv
+    deps:
+    - data/iris.csv
+    - src/load_clean.py
+    outs:
+    - data/cleaned.csv
+  train_model:
+    cmd: python src/train.py data/transformed.csv models/model.pkl metrics.json
+    deps:
+    - data/transformed.csv
+    - src/train.py
+    outs:
+    - models/model.pkl
+    metrics:
+    - metrics.json:
+        cache: false
