@@ -7,12 +7,17 @@ stages:
     outs:
     - data/cleaned.csv
   train_model:
-    cmd: python src/train.py data/transformed.csv models/model.pkl metrics.json
+    cmd: python src/train.py data/cleaned.csv models/model.pkl metrics.json
     deps:
-    - data/transformed.csv
+    - data/cleaned.csv
     - src/train.py
     outs:
     - models/model.pkl
     metrics:
     - metrics.json:
         cache: false
+  load_to_postgres:
+    cmd: python src/load_to_db.py data/cleaned.csv
+    deps:
+    - data/cleaned.csv
+    - src/load_to_db.py
